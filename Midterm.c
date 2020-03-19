@@ -66,6 +66,8 @@ int strcmp(const char* s, const char* t) {
 }
 
 //9
+#include <stdio.h>
+#include <stdlib.h>
 //------ POINT ----------------------------------------------------------------
 typedef struct point point;
 struct point { double x, y; };
@@ -73,29 +75,49 @@ struct point { double x, y; };
 typedef struct square square;
 struct square { point ul; size_t side; };
 
-square* square_init(double ulx, double uly, double side); // TODO
+square* square_init(double ulx, double uly, double side){
+	square* p = (square*)malloc(sizeof(square));
+        p->ul.x = ulx;
+        p->ul.y = uly;
+        p->side = (size_t)side;
+	return p;
+}
 
-void square_delete(square* sq); // TODO
+void square_delete(square* sq){
+	free(sq);
+}
 
-void square_move(square* sq, double x, double y); // TODO
+void square_move(square* sq, double x, double y){
+	sq->ul.x = x;
+	sq->ul.y = y;
+}
 
-void square_expandby(square* sq, double expandby); // TODO
+void square_expandby(square* sq, double expandby){
+	sq->side = (sq->side)*expandby;
+}
 
-double square_area(square* sq); // TODO
+double square_area(square* sq){
+	return (sq->side)*(sq->side);
+}
 
-double square_perimeter(square* r); // TODO
-// print location, side, area and perimeter
-void square_print(const char* msg, square* sq); // TODO
+double square_perimeter(square* r){
+	return 4*(r->side);
+}
+
+void square_print(const char* msg, square* sq){
+	printf(msg);
+	printf("Point: %.2lf by %.2lf, Area: %.2lf, Perimeter: %.2lf \n",sq->ul.x,sq->ul.y,square_area(sq),square_perimeter(sq));
+}
 
 void test_square(double ulx, double uly, double side) {
 	square* sq = square_init(ulx, uly, side);
-	square_print(“sq is : “, sq);
+	square_print(â€œsq is : â€œ, sq);
 	square_move(2, 2);
-	square_print(“sq is now : “, sq);
+	square_print(â€œsq is now : â€œ, sq);
 	square_expandby(sq, 10);
-	square_print(“sq has expanded to : “, sq);
+	square_print(â€œsq has expanded to : â€œ, sq);
 	square_delete(sq);
-	printf(“\n\n”);
+	printf(â€œ\n\nâ€);
 }
 
 void tests_square() {
